@@ -1,17 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 
-class Product extends Component {
-  render() {
-    const { id, title, price, inStock, imageSrc } = this.props.product;
-    return (
-      <div className="product">
-        <p>Title : {title}</p>
-        <p>Price : {price}</p>
-        <p>inStock : {inStock}</p>
-        <button onClick={() => this.props.onBuy(id)}>Buy</button>
-      </div>
-    );
-  }
+function Product(props) {
+  const { id, title, price, inStock } = props.product;
+  return (
+    <div className="product">
+      <p>Title : {title}</p>
+      <p>Price : {price}</p>
+      <p>inStock : {inStock}</p>
+      <button onClick={() => props.onBuy(id)}>Buy</button>
+    </div>
+  );
 }
 
 export default Product;

@@ -1,10 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import ShoppingCart from "./ShoppingCart";
 
-class App extends Component {
-  render() {
-    return <ShoppingCart />;
-  }
+function App() {
+  return <ShoppingCart />;
 }
 
 export default App;
