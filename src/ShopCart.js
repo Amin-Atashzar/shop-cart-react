@@ -1,10 +1,11 @@
 import React from "react";
 import ShowTotal from "./ShowTotal";
 
-function ShopCart(props) {
-  const showingCart = props.cart.filter(item => item.count > 0);
+function ShopCart({ cart, onDelete }) {
+  const showingCart = cart.filter(item => item.count > 0);
+  
   return (
-    <React.Fragment>
+    <>
       {showingCart.length === 0 && (
         <div className="cart-empty">
           <div>
@@ -20,13 +21,13 @@ function ShopCart(props) {
               <p>Price : {item.price}</p>
               <p>Count : {item.count}</p>
               <p>total : {item.count * item.price}</p>
-              <button onClick={() => props.onDelete(item.id)}>Delete</button>
+              <button onClick={() => onDelete(item.id)}>Delete</button>
             </div>
           ))}
           {<ShowTotal cart={showingCart} />}
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 }
 

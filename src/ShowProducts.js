@@ -7,31 +7,32 @@ class ShowProducts extends Component {
   };
 
   updateQuery = query => {
-    this.setState(() => ({
-      query: query.trim()
-    }));
+    this.setState({
+      query
+    });
   };
 
   clearQuery = () => {
     this.updateQuery("");
   };
 
+  onChangeQuery = event => this.updateQuery(event.target.value);
+
   render() {
-    const validProducts = this.props.products.filter(p => p.inStock > 0);
-    const showingProducts =
-      this.state.query === ""
-        ? validProducts
-        : validProducts.filter(c =>
-            c.title.toLowerCase().includes(this.state.query.toLowerCase())
-          );
+    const { products, onBuy } = this.props;
+    const { query } = this.state;
+    const validProducts = products.filter(p => p.inStock > 0);
+    const showingProducts = validProducts
+      .filter(c => c.title.toLowerCase().includes(query.trim().toLowerCase()))
+
     return (
       <div className="products">
         <div className="search-product">
           <input
-            type="text"
-            value={this.state.query}
+            type="search"
+            value={query}
             placeholder="Search Products"
-            onChange={event => this.updateQuery(event.target.value)}
+            onChange={this.onChangeQuery}
           />
         </div>
 
@@ -48,7 +49,7 @@ class ShowProducts extends Component {
           <Product
             product={product}
             key={product.id}
-            onBuy={this.props.onBuy}
+            onBuy={onBuy}
           />
         ))}
       </div>

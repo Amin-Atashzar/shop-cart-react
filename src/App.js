@@ -33,42 +33,30 @@ class App extends Component {
     cart: []
   };
 
-  addToCart = (product, cart) => {
-    const productInCart = cart.find(i => i.id === product.id);
+  onBuy = id => {
+    const { cart, products } = this.state;
+    const product = products.find(p => p.id === id);
+    const productInCart = cart.find(p => p.id === product.id);
+
     if (productInCart) {
       productInCart.count++;
-      const products = this.state.products;
-      products.find(p => p.id === product.id).inStock--;
-      this.setState(() => ({
-        products: products,
-        cart: cart
-      }));
     } else {
       const cartItem = { ...product, count: 1 };
       cart.push(cartItem);
       delete cartItem.inStock;
-      const products = this.state.products;
-      products.find(p => p.id === product.id).inStock--;
-      this.setState(() => ({
-        products: products,
-        cart: cart
-      }));
     }
-  };
 
-  onBuy = id => {
-    const draftCart = this.state.cart;
-    this.addToCart(this.state.products.find(p => p.id === id), draftCart);
+    products.find(p => p.id === product.id).inStock--;
+
     this.setState(() => ({
-      cart: draftCart
+      products,
+      cart
     }));
   };
 
   onDelete = id => {
-    this.setState(prev => {
-      const cart = prev.cart;
+    this.setState(({ cart, products }) => {
       cart.find(p => p.id === id).count--;
-      const products = prev.products;
       products.find(p => p.id === id).inStock++;
       return {
         products: products,
@@ -77,10 +65,12 @@ class App extends Component {
     });
   };
   render() {
+    const { cart, products } = this.state;
+
     return (
       <div className="container">
-        <ShowProducts products={this.state.products} onBuy={this.onBuy} />
-        <ShopCart cart={this.state.cart} onDelete={this.onDelete} />
+        <ShowProducts products={products} onBuy={this.onBuy} />
+        <ShopCart cart={cart} onDelete={this.onDelete} />
       </div>
     );
   }
